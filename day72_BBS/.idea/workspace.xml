@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1f3e0839-7888-43d7-975b-c72099c63469" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app01/templatetags/mytag.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/article_detail.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/left_menu.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app01/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app01/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/day72_BBS/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/day72_BBS/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/site.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/site.html" afterDir="false" />
-    </list>
+    <list default="true" id="1f3e0839-7888-43d7-975b-c72099c63469" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,8 +108,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app01/templatetags/mytag.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-line="31" selection-end-column="19" />
+            <state relative-caret-position="150">
+              <caret line="10" column="67" selection-start-line="10" selection-start-column="67" selection-end-line="10" selection-end-column="67" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
               </folding>
@@ -399,17 +388,17 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="615" y="123" width="825" height="731" extended-state="0" />
+    <frame x="590" y="123" width="850" height="731" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17369093" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16831683" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="manage.py@day72_BBS" weight="0.2597809" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" />
       <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Python Console" visible="true" weight="0.256651" />
+      <window_info active="true" anchor="bottom" id="Python Console" visible="true" weight="0.256651" />
       <window_info anchor="bottom" id="Terminal" weight="0.3285968" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Database Console" weight="0.32394367" />
@@ -669,8 +658,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app01/templatetags/mytag.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="31" selection-end-column="19" />
+        <state relative-caret-position="150">
+          <caret line="10" column="67" selection-start-line="10" selection-start-column="67" selection-end-line="10" selection-end-column="67" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
           </folding>
