@@ -43,5 +43,8 @@ urlpatterns = [
     # url(r'^(?P<username>\w+)/archive/(\w+)', views.site)
     # 合并成一条url
     # 关键字参数username、condition、param
-    url(r'^(?P<username>\w+)/(?P<condition>category|tag|archive)/(?P<param>.*)',views.site)
+    url(r'^(?P<username>\w+)/(?P<condition>category|tag|archive)/(?P<param>.*)',views.site),
+
+    # 文章详情页
+    url(r'^(?P<username>\w+)/article/(?P<article_id>\d+)', views.article_detail),
 ]

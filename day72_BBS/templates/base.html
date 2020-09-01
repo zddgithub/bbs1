@@ -7,10 +7,9 @@
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    {% load static %}
+    <link rel="stylesheet" href="/media/css/{{ blog.site_theme }}/">
 </head>
 <body>
-
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -22,7 +21,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">BBS</a>
+            <a class="navbar-brand" href="#">{{ blog.site_title }}</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -117,119 +116,19 @@
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
-
 <div class="container-fluid">
-    <div class="col-md-2 col-xs-2">
-        <div class="panel panel-warning">
-            <div class="panel-heading">
-                <h3 class="panel-title">广告1</h3>
-            </div>
-            <div class="panel-body">
-                内容1
-            </div>
+    <div class="row">
+        <div class="col-md-3 col-xs-3">
+            {% load mytag %}
+            {% left_menu username %}
         </div>
-        <div class="panel panel-danger">
-            <div class="panel-heading">
-                <h3 class="panel-title">广告2</h3>
-            </div>
-            <div class="panel-body">
-                内容2
-            </div>
-        </div>
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h3 class="panel-title">广告3</h3>
-            </div>
-            <div class="panel-body">
-                内容3
-            </div>
-        </div>
-    </div>
-    <div class="col-md-8 col-xs-8">
-        {# 文章展示 #}
-        <ul class="media-list">
-            {% for article_obj in article_queryset %}
-                <li class="media">
-                    <h4 class="media-heading"><a href="/{{ article_obj.blog.userinfo.username }}/article/{{ article_obj.pk }}">{{ article_obj.title }}</a></h4>
-                    <div class="media-left">
-                        <a href="#">
-                            {# 图片的路径需要我们手动加上media前缀#}
-                            <img class="media-object" src="/media/{{ article_obj.blog.userinfo.avatar }}" alt="..." width="60"
-                                 height="60">
-                        </a>
-                    </div>
-                    <div class="media-body">{{ article_obj.desc }}</div>
-                    <br>
-                    <div>
-                        {# 通过文章拿到用户对象#}
-                        <span><a href="/{{ article_obj.blog.userinfo.username }}/">{{ article_obj.blog.userinfo.username }}</a></span>
-                        <span>&nbsp;发布于&nbsp;</span>
-                        <span><a href="">&nbsp;{{ article_obj.create_time|date:"Y-m-d" }}&nbsp;</a></span>
-                        <span>
-                            <span class="glyphicon glyphicon-comment"></span>
-                            &nbsp;评论({{ article_obj.comment_num }})&nbsp;
-                        </span>
-                        <span>
-                            <span class="glyphicon glyphicon-thumbs-up"></span>
-                            &nbsp;点赞({{ article_obj.up_num }})&nbsp;
-                        </span>
-                    </div>
-                </li>
-                <hr>
-            {% endfor %}
+        <div class="col-md-9 col-xs-9">
+            {% block content %}
 
-
-        </ul>
-
-    </div>
-    <div class="col-md-2 col-xs-2">
-        <div class="panel panel-warning">
-            <div class="panel-heading">
-                <h3 class="panel-title">广告1</h3>
-            </div>
-            <div class="panel-body">
-                内容1
-            </div>
-        </div>
-        <div class="panel panel-danger">
-            <div class="panel-heading">
-                <h3 class="panel-title">广告2</h3>
-            </div>
-            <div class="panel-body">
-                内容2
-            </div>
-        </div>
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h3 class="panel-title">广告3</h3>
-            </div>
-            <div class="panel-body">
-                内容3
-            </div>
+            {% endblock %}
         </div>
     </div>
 </div>
-<script>
-    // 给修改按钮绑定一个点击事件
-    $('#id_edit').click(function () {
-        $.ajax({
-            url: '/set_password/',
-            type: 'post',
-            data: {
-                'old_password': $('#id_old_password').val(),
-                'new_password': $('#id_new_password').val(),
-                'confirm_new_password': $('#id_confirm_new_password').val(),
-                'csrfmiddlewaretoken': '{{ csrf_token }}'
-            },
-            success: function (args) {
-                if (args.code == 1000) {
-                    window.location.reload()   // 如果修改成功可以刷新一下页面或者跳转到登录页面让用户重新登录
-                } else {
-                    $("#password_errors").text(args.msg)
-                }
-            }
-        })
-    })
-</script>
+
 </body>
 </html>
