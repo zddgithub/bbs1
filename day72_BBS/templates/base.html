@@ -8,6 +8,9 @@
     <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/media/css/{{ blog.site_theme }}/">
+    {% block css %}
+    
+    {% endblock %}
 </head>
 <body>
 <nav class="navbar navbar-inverse">
@@ -130,5 +133,8 @@
     </div>
 </div>
 
+{% block js %}
+
+{% endblock %}
 </body>
 </html>
