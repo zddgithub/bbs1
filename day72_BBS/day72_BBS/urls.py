@@ -34,6 +34,20 @@ urlpatterns = [
     # 暴露后端指定文件夹资源(MEDIA_ROOT的路径)
     url(r'^media/(?P<path>.*)',serve,{'document_root':settings.MEDIA_ROOT}),
 
+    # 点赞点踩
+    url(r'^up_or_down/',views.up_or_down),
+    # 评论
+    url(r'^comment/',views.comment),
+
+    # 后台管理
+    url(r'^backend/', views.backend),
+    # 添加文章
+    url(r'^add_article/', views.add_article),
+    # 编辑器上传图片接口
+    url(r'^upload_image/',views.upload_image),
+    # 修改用户头像
+    url(r'^set/avatar/',views.set_avatar),
+
     # 个人站点页面搭建
     url(r'^(?P<username>\w+)/$',views.site,name='site'),
 

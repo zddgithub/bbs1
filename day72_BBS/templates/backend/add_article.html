@@ -1,0 +1,54 @@
+{% extends 'backend/base.html' %}
+
+{% block article %}
+    <h3>添加文章</h3>
+    <form action="" method="post">
+        {% csrf_token %}
+        <p>标题</p>
+        <div>
+            <input type="text" name="title" class="form-control">
+        </div>
+        <p>内容</p>
+        <textarea name="content" id="id_content" cols="70" rows="10"></textarea>
+        <p>分类(展示当前用户的文章所有分类和所有标签供用户选择)</p>
+        {% for category in category_list %}
+            <p><input type="radio" value="{{ category.pk }}" name="category">{{ category.name }}</p>
+        {% endfor %}
+
+        {% for tag in tag_list %}
+            <p><input type="checkbox" value="{{ tag.pk }}" name="tag">{{ tag.name }}</p>
+        {% endfor %}
+
+        <p><input type="submit" value="添加" class="btn btn-success "></p>
+    </form>
+{% endblock %}
+
+{% block js %}
+    {% load static %}
+    <script charset="utf-8" src="{% static 'kindeditor/kindeditor-all-min.js' %}"></script>
+    <script charset="utf-8" src="{% static 'kindeditor/lang/zh-CN.js' %}"></script>
+    <script>
+        KindEditor.ready(function (K) {
+            window.editor = K.create('#id_content', {
+                width: '100%',
+                height: '600px',
+                // item控制每个功能
+                item: ['source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
+                    'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+                    'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+                    'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+                    'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+                    'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
+                    'flash', 'media', 'insertfile', 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+                    'anchor', 'link', 'unlink', '|', 'about'],
+                uploadJson : '/upload_image/',  // 上传图片的后端提交路径
+                extraFileUploadParams : {    // 上传图片、Flash、视音频、文件时，支持添加别的参数一并传到服务器。
+                    'csrfmiddlewaretoken':'{{ csrf_token }}'
+                }
+            });
+        });
+    </script>
+
+
+
+{% endblock %}

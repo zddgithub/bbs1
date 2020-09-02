@@ -61,7 +61,7 @@
                             <li><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg">
                                 修改密码
                             </a></li>
-                            <li><a href="#">修改头像</a></li>
+                            <li><a href="/set/avatar/">修改头像</a></li>
                             <li><a href="#">后台管理</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="{% url 'logout' %}">退出登录</a></li>
@@ -154,8 +154,7 @@
                     <div class="media-left">
                         <a href="#">
                             {# 图片的路径需要我们手动加上media前缀#}
-                            <img class="media-object" src="/media/{{ article_obj.blog.userinfo.avatar }}" alt="..." width="60"
-                                 height="60">
+                            <img class="media-object" src="/media/{{ article_obj.blog.userinfo.avatar }}" alt="..." height="65">
                         </a>
                     </div>
                     <div class="media-body">{{ article_obj.desc }}</div>

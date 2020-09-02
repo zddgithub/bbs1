@@ -47,29 +47,154 @@
         {{ article_obj.content|safe }}
     </div>
     {# 点赞点踩样式开始 #}
-    <div id="div_digg">
-        <div class="diggit action">
-            <span class="diggnum" id="digg_count">0</span>
-        </div>
-        <div class="buryit action">
-            <span class="burynum" id="bury_count">0</span>
-        </div>
-        <div class="clear"></div>
-        <div class="diggword" id="digg_tips">
+    <div class="clearfix">
+        <div id="div_digg">
+            <div class="diggit action">
+                <span class="diggnum" id="digg_count">{{ article_obj.up_num }}</span>
+            </div>
+            <div class="buryit action">
+                <span class="burynum" id="bury_count">{{ article_obj.down_num }}</span>
+            </div>
+            <div class="clear"></div>
+            <div class="diggword" id="digg_tips" style="color: red">
+            </div>
         </div>
     </div>
-
     {# 点赞点踩样式结束 #}
+
+    {# 评论楼开始#}
+    <div>
+        <ul class="list-group">
+            {% for comment in comment_list %}
+                <li class="list-group-item">
+                    <span>#{{ forloop.counter }}楼</span>
+                    <span>{{ comment.comment_time|date:'Y-m-d H:h:s' }}</span>
+                    <span>{{ comment.user.username }}</span>
+                    <span><a class="pull-right reply" username="{{ comment.user.username }}"
+                             comment_id="{{ comment.pk }}">回复</a></span>
+                    <div>
+                        {# 判断当前是否是子评论，如果是子评论，则需要渲染对应的评论人名#}
+                        {% if comment.parent_id %}
+                            <p>@{{ comment.parent.user.username }}</p>
+                        {% endif %}
+                        {{ comment.content }}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {# 评论楼结束#}
+
+    {#    文章评论样式开始,需要用户登录才能进行评论#}
+    {% if request.user.is_authenticated %}
+        <div>
+            <p><span class="glyphicon glyphicon-comment"></span>发表评论</p>
+            <div>
+                <textarea name="comment" id="id_comment" cols="70" rows="10"></textarea>
+            </div>
+            <button id="id_submit" class="btn btn-primary">提交评论</button>
+        </div>
+    {% else %}
+        <li><a href="{% url 'reg' %}">注册</a></li>
+        <li><a href="{% url 'login' %}">登录</a></li>
+    {% endif %}
+
+
+    {#    文章评论样式结束#}
 {% endblock %}
 
 {% block js %}
     <script>
-    // 给所有的action类绑定事件(点赞点踩两个类)
-    $('.action').click(function () {
-        // 点击了哪个按钮，$(this)就是哪个标签
-        let isUp = $(this).hasClass('diggit')
+        // 给所有的action类绑定事件(点赞点踩两个类)
+        $('.action').click(function () {
+            // 点击了哪个按钮，$(this)就是哪个标签
+            let isUp = $(this).hasClass('diggit');  //true就是点赞，false就是点踩
+            let $div = $(this);
+            // 朝后端发送ajax请求
+            $.ajax({
+                url: '/up_or_down/',
+                type: 'post',
+                data: {
+                    'article_id': '{{ article_obj.pk }}',
+                    'is_up': isUp,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (args) {
+                    if (args.code == 1000) {
+                        $('#digg_tips').text(args.msg)
+                        // 将前端点赞或点踩数+1
+                        let oldNum = $div.children().text(); // 拿到span标签内部文本
+                        $div.children().text(Number(oldNum) + 1)
+                    } else {
+                        $('#digg_tips').html(args.msg)
+                    }
+                }
+            })
+        })
 
-    })
+        // 设置一个全局parentId字段
+        let parentId = null;
+
+        // 用户点击评论按钮朝后端发送ajax请求
+        $('#id_submit').click(function () {
+            // 先拿到用户评论内容
+            let conTent = $('#id_comment').val();
+            // 判断当前评论是否是子评论，如果是，需要将我们之前手动渲染的@username去除
+            if (parentId) {
+                // 找到\n对应的索引+1，然后利用切片去除
+                let indexNum = conTent.indexOf('\n') + 1;
+                conTent = conTent.slice(indexNum) // slice将indexNum之前的所有数据切除，保留后面的部分
+            }
+            $.ajax({
+                url: '/comment/',
+                type: 'post',
+                data: {
+                    'article_id': '{{ article_obj.pk }}',
+                    {#'content':{{ 'conTent' }},#}
+                    'content': conTent,
+                    // 如果parentId没有值，后端就存储为null
+                    'parent_id': parentId,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (args) {
+                    if (args.code == 1000) {
+                        // 将评论框内容清空
+                        $('#id_comment').val('');
+                        // 根评论渲染方式
+                        // 1、临时渲染评论楼
+                        let userName = '{{ request.user.username }}';
+                        let tmp = `
+                        <li class="list-group-item">
+                            <span>${ userName }</span>
+                            <span><a href="" class="pull-right">回复</a></span>
+                            <div>
+                                ${conTent}
+                            </div>
+                        </li>
+                        `;
+                        // 将生成好的标签添加到ul标签内
+                        {#$('.list-group').append(tmp)#}
+                        // 2、页面刷新永久渲染
+                        window.location.reload();
+
+                        // 清空全局的parentId
+                        parentId = null;
+                    }
+                }
+            })
+        })
+
+        // 给回复按钮绑定点击事件
+        $('.reply').click(function () {
+            // 回复按钮所在那一行的评论人姓名以及评论的主键值
+            // 获取用户名
+            let commentUsername = $(this).attr('username');
+            // 获取主键值,直接修改全局变量
+            parentId = $(this).attr('comment_id');
+            // 拼接信息放到评论框中
+            $('#id_comment').val('@' + commentUsername + '\n').focus()
+        })
     </script>
 {% endblock %}
 
